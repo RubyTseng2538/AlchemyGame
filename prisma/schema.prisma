@@ -12,3 +12,114 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User{
+  id               Int           @id @default(autoincrement())
+  GoogleId         String?       @unique
+  name             String
+  email            String
+  permission       Permission
+  items            Item[]
+  Gemlings         Gemlings[]
+  Lava_Garden      Lava_Garden[]
+}
+
+model Item {
+  id        Int      @id @default(autoincrement())
+  name      String
+  description String
+  type      ItemType
+  user      User[]
+  recipe    Recipe[]
+}
+
+model Recipe {
+  id        Int      @id @default(autoincrement())
+  name      String
+  ingredients Item[]
+}
+
+model Gemlings {
+  id            Int         @id @default(autoincrement())
+  name          String
+  family        Family
+  rarity        Rarity
+  Gem           Gem
+  race          Race
+  owner         User        @relation(fields: [userId], references: [id])
+  userId        Int
+  lavaGarden    Lava_Garden @relation(fields: [lavaGardenId], references: [id])
+  lavaGardenId  Int
+}
+
+model Lava_Garden {
+  id           Int         @id @default(autoincrement())
+  users        User[]
+  gemlings     Gemlings[]
+  family       Family
+}
+
+enum Family {
+  BERYL
+  QUARTZ
+  OXIDE
+  CARBON
+}
+
+enum Rarity {
+  COMMON
+  UNCOMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+enum Race {
+  DRAGON
+  PHOENIX
+  GRIFFIN
+  UNICORN
+  TIGER
+  WOLF
+  TURTLE
+  FOX
+  SERPENT
+}
+
+
+enum Permission {
+  ADMIN
+  USER
+}
+
+enum ItemType {
+  FOOD
+  DRINK
+  CLOTHING
+  ELECTRONICS
+  OTHER
+}
+
+enum Gem {
+  GOSHENITE
+  HELIODOR
+  AQUAMARINE
+  MORGANITE
+  EMERALD
+  SMOKY_QUARTZ
+  ROSE_QUARTZ
+  CITRINE
+  AMETHYST
+  COTTERITE
+  CORUNDUM
+  TANZANITE
+  ALEXANDRITE
+  TAAFFEITE
+  MUSGRAVITE
+  CARBON
+  CALCITE
+  SMITHSONITE
+  MALACHITE
+  DIAMOND
+  CARBONADO
+}
