@@ -76,26 +76,60 @@ async function updateUser(id, data){
     return user;
 }
 
-async function addEvents(id, eventID){
-    const event = await prisma.user.update({
-        where: {
+async function addGold(id, gold){
+    const user = await prisma.user.update({
+        where:{
             id: id
         },
-        data: {
-            events: {connect: {id: eventID}}
+        data:{
+            gold: {
+                increment: gold
+            }
         }
-    })
+    });
+    return user;
 }
 
-async function removeEvents(eventID, userID){
+async function addPrism(id, prism){
     const user = await prisma.user.update({
-        where: {
-            id: userID
+        where:{
+            id: id
         },
-        data: {
-            events: {disconnect: {id: eventID}}
+        data:{
+            prism: {
+                increment: prism
+            }
         }
-    })
+    });
+    return user;
+}
+
+async function subtractGold(id, gold){
+    const user = await prisma.user.update({
+        where:{
+            id: id
+        },
+        data:{
+            gold: {
+                decrement: gold
+            }
+        }
+    });
+    return user;
+}
+
+async function subtractPrism(id, prism){
+    const user = await prisma.user.update({
+        where:{
+            id: id
+        },
+        data:{
+            prism: {
+                decrement: prism
+            }
+        }
+    });
+    return user;
 }
 
 //delete
@@ -115,7 +149,9 @@ module.exports = {
   getUserByString,
   getAllUsers,
   updateUser,
-  addEvents,
-  removeEvents,
-  deleteUser
+  deleteUser,
+  addGold,
+  addPrism,
+  subtractGold,
+  subtractPrism
 };

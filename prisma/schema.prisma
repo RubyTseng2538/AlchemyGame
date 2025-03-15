@@ -18,6 +18,8 @@ model User{
   GoogleId         String?       @unique
   name             String
   email            String
+  gold             Int           @default(0)
+  prism            Int           @default(0)
   permission       Permission
   items            Item[]
   Gemlings         Gemlings[]
